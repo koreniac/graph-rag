@@ -11,13 +11,21 @@ from langchain_community.graphs import Neo4jGraph
 from langchain_experimental.graph_transformers import LLMGraphTransformer
 from langchain_openai import ChatOpenAI
 
-os.environ["NEO4J_URI"] = "bolt://localhost:7687"
+
+os.environ["NEO4J_URI"] = "bolt://host.docker.internal:7687"
 os.environ["NEO4J_USERNAME"] = "neo4j"
-os.environ["NEO4J_PASSWORD"] = "buildkg123!"
+os.environ["NEO4J_PASSWORD"] = "-------------yourpass"
+os.environ["NEO4J_DATABASE"] = "neo4j"
+
+# graph_rag:v1.0.6
+# os.environ["NEO4J_URI"] = "bolt://44.193.74.99"
+# os.environ["NEO4J_USERNAME"] = "neo4j"
+# os.environ["NEO4J_PASSWORD"] = "ensign-stator-problem"
+# os.environ["NEO4J_DATABASE"] = "neo4j"
 
 class GraphBuilder():
     """
-    Encapsulates the core functionality requires to build a full knowledge graph 
+    Encapsulates the core functionality requires to build a full knowledge graph
     from multiple sources of unstructured text
 
     _extended_summary_
@@ -28,8 +36,8 @@ class GraphBuilder():
 
     def chunk_document_text(self, raw_docs):
         """
-        Accepts raw text context extracted from source and applies a chunking 
-        algorithm to it. 
+        Accepts raw text context extracted from source and applies a chunking
+        algorithm to it.
 
         Args:
             raw_docs (str): The raw content extracted from the source
@@ -95,7 +103,7 @@ class GraphBuilder():
 
     def extract_wikipedia_content(self, search_query):
         """
-        Uses the search query and LangChain interface to extract 
+        Uses the search query and LangChain interface to extract
         content from the results of a Wikipedia search
 
         Args:

@@ -1,5 +1,5 @@
 """
-Module to manage all GraphRAG functions. Mainly revolves around building up 
+Module to manage all GraphRAG functions. Mainly revolves around building up
 a retriever that can parse knowledge graphs and return related results
 """
 from typing import List
@@ -22,7 +22,7 @@ class GraphRAG():
 
     def create_entity_extract_chain(self):
         """
-        Creates a chain which will extract entities from the question posed by the user. 
+        Creates a chain which will extract entities from the question posed by the user.
         This allows us to search the graph for nodes which correspond to entities more efficiently
 
         Returns:
@@ -73,15 +73,15 @@ class GraphRAG():
 
     def structured_retriever(self, question: str) -> str:
         """
-        Creates a retriever which will use entities extracted from the users query to 
+        Creates a retriever which will use entities extracted from the users query to
         request context from the Graph and return the neighboring nodes and edges related
-        to that query. 
-        
+        to that query.
+
         Args:
             question (str): The question posed by the user for this graph RAG
 
         Returns:
-            str: The fully formed Graph Query which will retrieve the 
+            str: The fully formed Graph Query which will retrieve the
                  context relevant to the users question
         """
 
@@ -111,8 +111,8 @@ class GraphRAG():
     def create_vector_index(self) -> Neo4jVector:
         """
         Uses the existing graph to create a vector index. This vector representation
-        is based off the properties specified. Using OpenAIEmbeddings since we are using 
-        GPT-4o as the model. 
+        is based off the properties specified. Using OpenAIEmbeddings since we are using
+        GPT-4o as the model.
 
         Returns:
             Neo4jVector: The vector representation of the graph nodes specified in the configuration
@@ -128,9 +128,9 @@ class GraphRAG():
 
     def retriever(self, question: str) -> str:
         """
-        The graph RAG retriever which combines both structured and unstructured methods of retrieval 
-        into a single retriever based off the users question. 
-        
+        The graph RAG retriever which combines both structured and unstructured methods of retrieval
+        into a single retriever based off the users question.
+
         Args:
             question (str): The question posed by the user for this graph RAG
 
@@ -150,7 +150,7 @@ class GraphRAG():
 
     def create_search_query(self, chat_history: List, question: str) -> str:
         """
-        Combines chat history along with the current question into a prompt that 
+        Combines chat history along with the current question into a prompt that
         can be executed by the LLM to answer the new question with history.
 
         Args:
@@ -163,7 +163,7 @@ class GraphRAG():
         search_query = ChatPromptTemplate.from_messages([
             (
                 "system",
-                """Given the following conversation and a follow up question, rephrase the follow 
+                """Given the following conversation and a follow up question, rephrase the follow
                 up question to be a standalone question, in its original language.
                 Chat History:
                 {chat_history}

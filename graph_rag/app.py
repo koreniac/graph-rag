@@ -9,19 +9,25 @@ from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.runnables import RunnableParallel, RunnablePassthrough
 from langchain_openai import ChatOpenAI
 from graph_rag.graph import GraphBuilder
+
+
 from graph_rag.rag import GraphRAG
 
 # Neo4j Client Setup
-os.environ["OPENAI_API_KEY"] = "sk-"
-os.environ["NEO4J_URI"] = "bolt://localhost:7687"
+os.environ["OPENAI_API_KEY"] = "-------------OPENAI_API_KEY"
+
+os.environ["NEO4J_URI"] = "bolt://host.docker.internal:7687"
 os.environ["NEO4J_USERNAME"] = "neo4j"
-os.environ["NEO4J_PASSWORD"] = "buildkg123!"
+os.environ["NEO4J_PASSWORD"] = "-------------yourpass"
+os.environ["NEO4J_DATABASE"] = "neo4j"
+
+
 
 llm = ChatOpenAI(model="gpt-4o", temperature=0)
 
 def graph_content(progress_bar, status_text):
     """
-    Entry point to generate a new graph. Will add controls to the UI 
+    Entry point to generate a new graph. Will add controls to the UI
     to perform these actions in the future
     """
     print("Building graph from content")
@@ -53,8 +59,8 @@ def reset_graph():
 
 def get_response(question: str) -> str:
     """
-    For the given question will formulate a search query and use a custom GraphRAG retriever 
-    to fetch related content from the knowledge graph. 
+    For the given question will formulate a search query and use a custom GraphRAG retriever
+    to fetch related content from the knowledge graph.
 
     Args:
         question (str): The question posed by the user for this graph RAG
@@ -90,7 +96,7 @@ def get_response(question: str) -> str:
 
 def init_ui():
     """
-    Primary entry point for the app. Creates the chat interface that interacts with the LLM. 
+    Primary entry point for the app. Creates the chat interface that interacts with the LLM.
     """
     st.set_page_config(page_title="Langchain RAG Bot", layout="wide")
     st.title("Langchain RAG Bot")

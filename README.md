@@ -1,3 +1,42 @@
+# Thanks for Bright Journey AI about Graph RAG
+
+And I modify little for integration all with docker (Next for compose).
+with fork project I add dockerfile for build app and modify project structure.
+
+1. run neo4j on local with
+```
+    docker run \
+        -p 7474:7474 -p 7687:7687 \
+        -v ${PWD}/data:/data -v ${PWD}/plugins:/plugins \
+        --name neo4j-v5-apoc \
+        -e NEO4J_apoc_export_file_enabled=true \
+        -e NEO4J_apoc_import_file_enabled=true \
+        -e NEO4J_apoc_import_file_use_neo4j_config=true \
+        -e NEO4J_PLUGINS='["apoc"]' \
+        -e NEO4J_dbms_security_procedures_unrestricted="apoc.*" \
+        neo4j:5.20.0
+```
+2. st time setup neo4j
+<p align="center">
+  <img src="graph_rag\images\graph-rag-setup-neo4j.png" alt="graph-rag" width="500"/>
+</p>
+
+```
+    default
+      user: neo4j
+      pass: neo4j
+    then
+      pass: uptoyou
+```
+3. build app with command
+```
+    DOCKER_BUILDKIT=1 docker build --target=runtime . -t graph_rag:latest
+```
+4. run app with command
+```
+    docker run -d --name graph_rag -p 8052:8052 graph_rag:latest
+```
+---
 # Graph RAG
 <p align="center">
   <img src="graph_rag\images\graph-rag-ui.png" alt="graph-rag" width="500"/>
@@ -31,12 +70,12 @@ docker run `
     neo4j:5.20.0
 ```
 
-Navigate to the URL exposed by the container and set the password, ensure the app has this before starting it up. 
+Navigate to the URL exposed by the container and set the password, ensure the app has this before starting it up.
 
 ## Run App
-**Important** - Add you OpenAI API key before proceeding. 
+**Important** - Add you OpenAI API key before proceeding.
 
-First ensure you have installed the dependencies. I use [Poetry](https://python-poetry.org/) for deps management. 
+First ensure you have installed the dependencies. I use [Poetry](https://python-poetry.org/) for deps management.
 
 `poetry install`
 
@@ -49,14 +88,14 @@ Next start up the streamlit app
   <img src="graph_rag\images\graph-rag-build.png" alt="graph-rag" width="500"/>
 </p>
 
-The first time you run the app you'll need to build the graph. This can be achieved with the default resources right away by hitting the "Populate Graph" button. This will take a few minutes but will result in a fully formed graph that you can visualize in Neo4j. 
+The first time you run the app you'll need to build the graph. This can be achieved with the default resources right away by hitting the "Populate Graph" button. This will take a few minutes but will result in a fully formed graph that you can visualize in Neo4j.
 
-You can now chat with the LLM which has a graph based knowledge base to feed from. 
+You can now chat with the LLM which has a graph based knowledge base to feed from.
 
-Resetting the graph will remove all nodes and edges as well as any metadata, useful if you want to start again. 
+Resetting the graph will remove all nodes and edges as well as any metadata, useful if you want to start again.
 
 ## Liked This?
-If you liked this consider supporting me for free by [joining my twice weekly newsletter](https://bit.ly/45lG2pR) on all things AI or by treating me to a cup of coffee, if you think I deserve it. 
+If you liked this consider supporting me for free by [joining my twice weekly newsletter](https://bit.ly/45lG2pR) on all things AI or by treating me to a cup of coffee, if you think I deserve it.
 
 Checkout my blog where I deep dive in AI and the latest innovations [Bright Journey AI](https://brightjourneyai.com/)
 
